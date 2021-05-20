@@ -1,9 +1,31 @@
-version: '3.0'
+version: "3.0"
 services:
+  node:
+    container_name: jungle-node
+    build:
+      dockerfile: ./node.dockerfile
+      context: .
+    image: jungle/node:12-alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/app
+    networks:
+      - containers-network
+    depends_on:
+      - "db"
+
   db:
+    container_name: jungle-postgres
     image: postgres:10
     ports:
       - "5432:5432"
+    networks:
+      - containers-network
     environment:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "challenge"
+
+networks:
+  containers-network:
+    driver: bridge
