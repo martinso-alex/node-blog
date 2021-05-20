@@ -1,20 +1,17 @@
 const express = require("express");
-const db = require("../database");
-
 const app = express();
 
-app.get("*", async (req, res) => {
-  const articles = await db.select().from('articles');
-  const authors = await db.select().from('authors');
-  const users = await db.select().from('users');
+const knex = require("../database/knex");
+const { Model } = require("objection");
+Model.knex(knex);
 
-  const agregate = {
-    users: users,
-    authors: authors,
-    articles: articles,
-  };
+app.use(express.json());
 
-	res.json(agregate);
-});
+const routes = require("./routes");
+routes(app);
+
+app.get("/", async (req, res) => res.json("Hello, world!"));
 
 app.listen(process.env.PORT || "8080");
+
+module.exports = app;

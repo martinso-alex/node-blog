@@ -1,6 +1,14 @@
 const knex = require("./knex");
 
-knex.migrate.latest()
-  .then(() => knex.seed.run());
+const migrate = async () => {
+	return await knex.migrate
+		.latest()
+		.then(() => knex.seed.run())
+		.then(() => "Dados criados com sucesso.")
+		.catch((error) => error.message);
+};
 
-module.exports = knex;
+module.exports = {
+	knex,
+	migrate,
+};
