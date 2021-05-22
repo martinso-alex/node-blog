@@ -23,9 +23,8 @@ class AuthenticateController {
 	static async login(req, res) {
 		const id = req.user.id;
 		const accessToken = jwt.create({ id });
-		const contents = jwt.contents(accessToken);
 
-		res.json({ accessToken, contents });
+		res.json({ accessToken });
 	}
 }
 

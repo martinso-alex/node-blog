@@ -19,8 +19,16 @@ class BadRequestError extends Error {
 	}
 }
 
+class InvalidCredentialsError extends Error {
+	constructor(mensagem) {
+		super(mensagem);
+		this.name = "InvalidCredentialsError";
+	}
+}
+
 module.exports = {
 	InvalidArgumentError: InvalidArgumentError,
 	InternalServerError: InternalServerError,
 	BadRequestError: BadRequestError,
+	InvalidCredentialsError: InvalidCredentialsError,
 };

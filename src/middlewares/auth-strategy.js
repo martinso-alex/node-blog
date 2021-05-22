@@ -1,8 +1,11 @@
+const BearerStrategy = require("passport-http-bearer").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
-const { InvalidArgumentError } = require("../../utils/errors");
+
+const { InvalidCredentialsError } = require("../../utils/errors");
 
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const { jwt } = require("../../utils/tokens");
 
 const { User } = require("../models");
 
@@ -19,12 +22,12 @@ passport.use(
 				const validPassword = await bcrypt.compare(password, user.password);
 
 				if (!user)
-					throw new InvalidArgumentError(
+					throw new InvalidCredentialsError(
 						"there's no user with the given email."
 					);
 
 				if (!validPassword)
-					throw new InvalidArgumentError("invalid email or password.");
+					throw new InvalidCredentialsError("invalid email or password.");
 
 				done(null, user);
 			} catch (error) {
@@ -32,4 +35,16 @@ passport.use(
 			}
 		}
 	)
+);
+
+passport.use(
+	new BearerStrategy(async (token, done) => {
+		try {
+			const { payload } = await jwt.contents(token);
+			const user = await User.query().findById(payload.id);
+			done(null, user, { token: token });
+		} catch (error) {
+			done(error);
+		}
+	})
 );
