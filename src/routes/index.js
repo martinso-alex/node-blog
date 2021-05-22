@@ -1,5 +1,3 @@
-const migrate = require("./migrate");
-
 module.exports = (app) => {
-	app.use("/api", migrate);
+	app.use("/api", [require("./migrate"), require("./authenticate")]);
 };

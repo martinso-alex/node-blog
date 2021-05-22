@@ -20,4 +20,10 @@ router.get("/database-dump", async (req, res) => {
 	res.json(agregate);
 });
 
+router.get("/dump-users", async (req, res) => {
+	const users = await User.query().select();
+
+	res.json(users);
+});
+
 module.exports = router;
