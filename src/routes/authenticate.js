@@ -5,7 +5,7 @@ const auth = require("../middlewares/auth");
 
 const router = Router();
 
-router.post("/sign-in", AuthenticateController.signIn);
+router.post("/sign-up", AuthenticateController.signIn);
 
 router.post("/login", auth.local, AuthenticateController.login);
 
