@@ -34,4 +34,22 @@ module.exports = {
 			next();
 		})(req, res, next);
 	},
+	optionalBearer: (req, res, next) => {
+		passport.authenticate("bearer", { session: false }, (error, user, info) => {
+			if (error && error.name === "JsonWebTokenError")
+				return res.status(401).json({ error: error.message });
+
+			if (error && error.name === "TokenExpiredError")
+				return res.status(401).json({
+					error: error.message,
+					expiredAt: error.expiredAt,
+				});
+
+			if (error) return res.status(500).json({ error: error.message });
+
+			req.token = info.token;
+			req.user = user || null;
+			next();
+		})(req, res, next);
+	},
 };

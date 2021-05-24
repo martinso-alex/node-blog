@@ -35,6 +35,7 @@ class Article extends Model {
 		return {
 			author: {
 				relation: Model.BelongsToOneRelation,
+				filter: (query) => query.select("name", "picture"),
 				modelClass: Author,
 				join: {
 					from: "articles.authorId",
