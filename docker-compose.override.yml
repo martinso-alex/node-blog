@@ -6,11 +6,16 @@ services:
       dockerfile: ./node.dockerfile
       context: .
     image: jungle/node:12-alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/node_modules
     networks:
       - containers-network
     depends_on:
       - "db"
-    command: yarn prod
+    command: yarn dev
 
   db:
     container_name: jungle-postgres
