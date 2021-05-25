@@ -3,7 +3,7 @@ const { User } = require("../models");
 const bcrypt = require("bcrypt");
 
 class AuthenticateController {
-	static async signIn(req, res) {
+	static async signUp(req, res) {
 		const { email, password, role } = req.body;
 
 		try {

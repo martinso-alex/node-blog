@@ -1,0 +1,29 @@
+{
+	"definition": {
+		"openapi": "3.0.1",
+		"info": {
+			"title": "API Basic Blog - Swagger",
+			"version": "1.0.0",
+			"description": "This is a basic blog api.",
+			"contact": {
+				"name": "Alexandre Martins",
+				"url": "https://github.com/martinso-alex/node-challenge-001"
+			}
+		},
+		"components": {
+			"securitySchemes": {
+				"bearerAuth": {
+					"type": "http",
+					"scheme": "bearer",
+					"bearerFormat": "JWT"
+				}
+			}
+		},
+		"servers": [
+			{
+				"url": "http://localhost:8080"
+			}
+		]
+	},
+	"apis": ["./src/routes/*.js"]
+}

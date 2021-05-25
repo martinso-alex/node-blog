@@ -19,13 +19,14 @@ passport.use(
 		async (email, password, done) => {
 			try {
 				const user = await User.query().findOne({ email });
-				const validPassword = await bcrypt.compare(password, user.password);
 
 				if (!user)
 					throw new InvalidCredentialsError(
 						"there's no user with the given email."
 					);
 
+				const validPassword = await bcrypt.compare(password, user.password);
+        
 				if (!validPassword)
 					throw new InvalidCredentialsError("invalid email or password.");
 
